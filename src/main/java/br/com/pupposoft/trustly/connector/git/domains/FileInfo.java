@@ -6,5 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class FileInfo {
-
+	private String path;
+	private Long lines;
+	private Double size;
 }
