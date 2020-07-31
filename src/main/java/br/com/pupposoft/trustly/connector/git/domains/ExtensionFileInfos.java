@@ -11,8 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExtensionFileInfos {
 	private String extensionName;
-	private Long totalLines;
-	private Double totalSize;
-	
 	private List<FileInfo> files;
 }
