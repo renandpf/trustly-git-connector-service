@@ -14,7 +14,7 @@ public class GetFilesInfosOrquestrator {
 	private GetAllFilesPathUseCase getAllFilesPathUseCase;
 
 	@Autowired
-	private GetFilesInfosGroupByExtension getFilesInfosGroupByExtension;
+	private GetFilesInfosGroupByExtensionUseCase getFilesInfosGroupByExtension;
 	
 	public List<ExtensionFileInfos> get(final String projectUrlBase) {
 		final List<String> allFilesPath = this.getAllFilesPathUseCase.get(projectUrlBase);

@@ -23,7 +23,7 @@ public class GetFilesInfosOrquestratorUnitTest {
 	private GetAllFilesPathUseCase getAllFilesPathUseCase;
 
 	@Mock
-	private GetFilesInfosGroupByExtension getFilesInfosGroupByExtension;
+	private GetFilesInfosGroupByExtensionUseCase getFilesInfosGroupByExtension;
 
 	@Before
 	public void InitMock() {
