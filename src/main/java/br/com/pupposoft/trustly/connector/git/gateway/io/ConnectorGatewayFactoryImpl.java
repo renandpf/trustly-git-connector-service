@@ -19,7 +19,6 @@ public class ConnectorGatewayFactoryImpl implements ConnectorGatewayFactory {
 		}
 		
 		throw new ConnectorNotFoundGatewayException();
-		
-	}
 
+	}
 }
