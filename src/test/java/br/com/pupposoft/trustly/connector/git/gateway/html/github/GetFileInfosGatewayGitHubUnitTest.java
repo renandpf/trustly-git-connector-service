@@ -68,6 +68,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
+		verify(this.httpConnectorGateway).load(filePath);
 	}
 
 	@Test
@@ -83,6 +84,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
+		verify(this.httpConnectorGateway).load(filePath);
 	}
 
 	@Test
@@ -98,6 +100,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
+		verify(this.httpConnectorGateway).load(filePath);
 	}
 	
 	@Test
@@ -113,7 +116,10 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(Measurement.MBYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
+		verify(this.httpConnectorGateway).load(filePath);
 	}
+	
+	//TODO: adicioanar cenario de teste de falha!!!
 	
 	private void mockLoadHtml(final String pathExampleFile, final String filePath) {
 		final String pageContent = this.loadFileFromResource(pathExampleFile);
