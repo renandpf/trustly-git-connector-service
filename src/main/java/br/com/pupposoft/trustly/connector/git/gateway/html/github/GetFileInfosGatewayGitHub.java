@@ -39,7 +39,7 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 		return this.getValueInsideTag(pageContent, FILE_NAME_START_TAG, FILE_NAME_END_TAG, FILE_NAME_START_NAME);
 	}
 	
-	//TODO: Maybe is better stay inside of any util class
+	//TODO: Maybe this method is better stay inside of any util class
 	private String getValueInsideTag(final String source, final String startTag, final String endTag, final String startValue) {
 		final int indexStartTag = source.indexOf(startTag);
 		final int indexEndTag = source.indexOf(endTag, indexStartTag);
