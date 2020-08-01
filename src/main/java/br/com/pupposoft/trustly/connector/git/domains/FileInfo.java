@@ -14,6 +14,7 @@ public class FileInfo {
 	private BigDecimal size;
 	
 	public String getExtension() {
+		//FIXME: usar: StringUtils.getFilenameExtension(path)
 		if(this.name.indexOf(".") > 0) {
 			return this.name.substring(this.name.lastIndexOf(".")+1, this.name.length());
 		}

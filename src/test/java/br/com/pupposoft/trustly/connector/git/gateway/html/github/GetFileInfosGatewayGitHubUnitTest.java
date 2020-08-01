@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -37,7 +39,9 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		doReturn(pageContent).when(this.connectorGatewayFactory).load(filePath);
 		
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
-		//TODO - asserts
+		assertEquals("pom.xml", fileInfo.getName());
+		assertEquals(filePath, fileInfo.getPath());
+		//TODO - demais asserts
 		
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
