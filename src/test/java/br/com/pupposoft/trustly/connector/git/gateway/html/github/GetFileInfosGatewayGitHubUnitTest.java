@@ -81,6 +81,21 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
 
+	@Test
+	public void getInfosJavaFile() {
+		final String filePath = "anyFilePath";
+		
+		final String pageContent = this.loadFileFromResource("pages/github/java-example-page.html");
+		doReturn(pageContent).when(this.connectorGatewayFactory).load(filePath);
+		
+		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		assertEquals("GitTrustlyConnectorService.java", fileInfo.getName());
+		assertEquals(filePath, fileInfo.getPath());
+		assertEquals(14, fileInfo.getLines());
+		assertEquals(new BigDecimal("448"), fileInfo.getSize());
+		
+		verify(this.connectorGatewayFactory).load(filePath);
+	}
 	
 	private String loadFileFromResource(final String path) {
 
