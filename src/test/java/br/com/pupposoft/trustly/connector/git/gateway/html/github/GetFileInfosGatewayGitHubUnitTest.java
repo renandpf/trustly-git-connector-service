@@ -1,11 +1,16 @@
 package br.com.pupposoft.trustly.connector.git.gateway.html.github;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
@@ -27,6 +32,9 @@ public class GetFileInfosGatewayGitHubUnitTest {
 	@Test
 	public void getInfosWithSuccess() {
 		final String filePath = "anyFilePath";
+		
+		final String pageContent = this.loadFileFromResource("pages/github/pom-example-page.html");
+		doReturn(pageContent).when(this.connectorGatewayFactory).load(filePath);
 		
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
 		//TODO - asserts
@@ -68,4 +76,18 @@ public class GetFileInfosGatewayGitHubUnitTest {
 //		assertEquals(allFilesPaths.get(0), filesPathSent.get(0));
 //		assertEquals(allFilesPaths.get(1), filesPathSent.get(1));
 //	}
+	
+	private String loadFileFromResource(final String path) {
+
+        final ClassLoader classLoader = getClass().getClassLoader();
+
+        try (final InputStream inputStream = classLoader.getResourceAsStream(path)) {
+
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error to read resorce file");
+        }
+    }
 }
