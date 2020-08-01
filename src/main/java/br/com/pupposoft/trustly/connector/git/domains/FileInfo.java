@@ -2,6 +2,8 @@ package br.com.pupposoft.trustly.connector.git.domains;
 
 import java.math.BigDecimal;
 
+import org.springframework.util.StringUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,11 +16,10 @@ public class FileInfo {
 	private BigDecimal size;
 	
 	public String getExtension() {
-		//FIXME: usar: StringUtils.getFilenameExtension(path)
-		if(this.name.indexOf(".") > 0) {
-			return this.name.substring(this.name.lastIndexOf(".")+1, this.name.length());
+		final String extension = StringUtils.getFilenameExtension(this.name);
+		if(extension != null) {
+			return extension;
 		}
-		
 		return "";
 	}
 }
