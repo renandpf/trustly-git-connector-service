@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
@@ -12,6 +11,7 @@ import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory
 
 @Component
 public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
+	private static final String FILE_SIZE_BYTES_CLEAN = "Bytes";
 	private static final String FILE_SIZE_KB_CLEAN = "KB";
 	private static final String FILE_SIZE_SPAN_CLEAN = "</span>";
 	private static final String FILE_SIZE_START = ">";
@@ -49,7 +49,12 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	
 	private String getFileSize(final String pageContent) {
 		final String fileSize = this.getValueInsideTag(pageContent, FILE_SIZE_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
-		return StringUtils.delete(StringUtils.delete(fileSize, FILE_SIZE_SPAN_CLEAN), FILE_SIZE_KB_CLEAN).trim();
+		
+		return fileSize
+				.replace(FILE_SIZE_SPAN_CLEAN, "")
+				.replace(FILE_SIZE_KB_CLEAN, "")
+				.replace(FILE_SIZE_BYTES_CLEAN, "")
+				.trim();
 	}
 	
 	//TODO: Maybe this method is better stay inside of any util class
