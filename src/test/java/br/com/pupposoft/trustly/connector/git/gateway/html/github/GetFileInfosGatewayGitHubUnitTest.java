@@ -12,6 +12,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
@@ -42,7 +43,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals("pom.xml", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(87, fileInfo.getLines());
-		//TODO - demais asserts
+		assertEquals(new BigDecimal("2.11"), fileInfo.getSize());
 		
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
