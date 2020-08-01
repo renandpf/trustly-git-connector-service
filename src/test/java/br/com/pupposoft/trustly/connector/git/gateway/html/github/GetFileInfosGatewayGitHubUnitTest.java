@@ -2,12 +2,12 @@ package br.com.pupposoft.trustly.connector.git.gateway.html.github;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -98,8 +98,6 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
 	
-	//TODO: Implementar
-	@Ignore
 	@Test
 	public void getInfosBlobFile() {
 		final String filePath = "anyFilePath";
@@ -110,7 +108,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
 		assertEquals("chromedriver.exe", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
-		assertEquals(0, fileInfo.getLines());
+		assertNull(fileInfo.getLines());
 		assertEquals(new BigDecimal("7.41"), fileInfo.getSize());
 		
 		verify(this.connectorGatewayFactory).load(filePath);
@@ -126,7 +124,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error to read resorce file");
+            throw new RuntimeException("Error to read resource file");
         }
     }
 }

@@ -11,16 +11,20 @@ import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory
 
 @Component
 public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
+	private static final String FILE_INFO_DIVIDER_CLASS = "<span class=\"file-info-divider\"></span>";
+	
+	private static final String FILE_SIZE_MBYTES_CLEAN = "MB";
 	private static final String FILE_SIZE_BYTES_CLEAN = "Bytes";
 	private static final String FILE_SIZE_KB_CLEAN = "KB";
 	private static final String FILE_SIZE_SPAN_CLEAN = "</span>";
 	private static final String FILE_SIZE_START = ">";
 	private static final String FILE_SIZE_END_TAG = "</div>";
-	private static final String FILE_SIZE_START_TAG = "<span class=\"file-info-divider\"></span>";
+	private static final String FILE_SIZE_START_TAG = FILE_INFO_DIVIDER_CLASS;
+	
+	private static final String FILE_INFOS_START_TAG = "<div class=\"text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0\">";
 	
 	private static final String LINE_NUMBER_START = FILE_SIZE_START;
 	private static final String LINE_NUMBER_END_TAG = "line";
-	private static final String LINE_NUMBER_START_TAG = "<div class=\"text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0\">";
 	
 	private static final String FILE_NAME_END_TAG = "</strong>";
 	private static final String FILE_NAME_START_TAG = "<strong class=\"final-path\">";
@@ -40,7 +44,11 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	}
 
 	private Long getLineNumber(final String pageContent) {
-		return Long.valueOf(this.getValueInsideTag(pageContent, LINE_NUMBER_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START));
+		if(pageContent.contains(FILE_INFO_DIVIDER_CLASS)) {
+			return Long.valueOf(this.getValueInsideTag(pageContent, FILE_INFOS_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START));
+		}
+		
+		return null;
 	}
 
 	private String getFileName(final String pageContent) {
@@ -48,12 +56,18 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	}
 	
 	private BigDecimal getFileSize(final String pageContent) {
-		final String fileSize = this.getValueInsideTag(pageContent, FILE_SIZE_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
+		String fileSize = null;
+		if(pageContent.contains(FILE_INFO_DIVIDER_CLASS)) {
+			fileSize = this.getValueInsideTag(pageContent, FILE_SIZE_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
+		}else {
+			fileSize = this.getValueInsideTag(pageContent, FILE_INFOS_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
+		}
 		
 		final String fileSizeClean = fileSize
 				.replace(FILE_SIZE_SPAN_CLEAN, "")
 				.replace(FILE_SIZE_KB_CLEAN, "")
 				.replace(FILE_SIZE_BYTES_CLEAN, "")
+				.replace(FILE_SIZE_MBYTES_CLEAN, "")
 				.trim();
 		
 		return new BigDecimal(fileSizeClean);
