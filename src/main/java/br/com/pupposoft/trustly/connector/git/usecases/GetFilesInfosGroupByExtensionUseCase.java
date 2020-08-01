@@ -20,14 +20,14 @@ public class GetFilesInfosGroupByExtensionUseCase {
 	private GetFileInfosGateway getFileInfosGateway;
 	
 	public List<ExtensionFileInfos> get(final List<String> filesPath) {
+		final List<FileInfo> filesInfo = this.getFilesInfos(filesPath);
+		return this.groupByExtension(filesInfo);
+	}
+
+	private List<ExtensionFileInfos> groupByExtension(final List<FileInfo> filesInfo) {
+		
+		final Set<String> extensions = getAllExtensionFromFiles(filesInfo);
 		final List<ExtensionFileInfos> extensionFileInfosList = new ArrayList<>();
-		
-		final List<FileInfo> filesInfo = new ArrayList<>();
-		filesPath.forEach(filePath -> filesInfo.add(this.getFileInfosGateway.getByPath(filePath)));
-		
-		final Set<String> extensions = new HashSet<>();
-		filesInfo.forEach(fi -> extensions.add(fi.getExtension()));
-		
 		extensions.forEach(e -> {
 			final List<FileInfo> filesFiltered = filesInfo.stream().filter(fi -> fi.getExtension().equals(e)).collect(Collectors.toList());
 			final ExtensionFileInfos extensionFileInfos = new ExtensionFileInfos(e, filesFiltered);
@@ -35,6 +35,18 @@ public class GetFilesInfosGroupByExtensionUseCase {
 		});
 		
 		return extensionFileInfosList;
+	}
+
+	private Set<String> getAllExtensionFromFiles(final List<FileInfo> filesInfo) {
+		final Set<String> extensions = new HashSet<>();
+		filesInfo.forEach(fi -> extensions.add(fi.getExtension()));
+		return extensions;
+	}
+
+	private List<FileInfo> getFilesInfos(final List<String> filesPath) {
+		final List<FileInfo> filesInfo = new ArrayList<>();
+		filesPath.forEach(filePath -> filesInfo.add(this.getFileInfosGateway.getByPath(filePath)));
+		return filesInfo;
 	}
 
 }
