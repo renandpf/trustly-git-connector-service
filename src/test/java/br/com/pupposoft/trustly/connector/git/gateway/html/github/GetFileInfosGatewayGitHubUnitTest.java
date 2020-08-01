@@ -1,27 +1,38 @@
 package br.com.pupposoft.trustly.connector.git.gateway.html.github;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
 
+import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
 public class GetFileInfosGatewayGitHubUnitTest {
 	
 	@InjectMocks
 	private GetFileInfosGateway getFileInfosGatewayGitHub = new GetFileInfosGatewayGitHub();
 	
+	@Mock
+	private ConnectorGatewayFactory connectorGatewayFactory;
+	
 	@Before
 	public void InitMock() {
 		MockitoAnnotations.initMocks(this);
 	}
 	
-	//TODO - Implementar!!!
-	
-//	@BeforeClass
-//	public static void init() {
-//		FixtureFactoryLoader.loadTemplates(ClassUtils.getPackageName(DomainsTemplateLoader.class));
-//	}
+	@Test
+	public void getInfosWithSuccess() {
+		final String filePath = "anyFilePath";
+		
+		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		//TODO - asserts
+		
+		verify(this.connectorGatewayFactory).load(filePath);
+	}
 	
 //	@Test
 //	public void getWithSameExtension() {
