@@ -2,6 +2,7 @@ package br.com.pupposoft.trustly.connector.git.gateway.html.github;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -93,6 +94,24 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(14, fileInfo.getLines());
 		assertEquals(new BigDecimal("448"), fileInfo.getSize());
+		
+		verify(this.connectorGatewayFactory).load(filePath);
+	}
+	
+	//TODO: Implementar
+	@Ignore
+	@Test
+	public void getInfosBlobFile() {
+		final String filePath = "anyFilePath";
+		
+		final String pageContent = this.loadFileFromResource("pages/github/blob-example-page.html");
+		doReturn(pageContent).when(this.connectorGatewayFactory).load(filePath);
+		
+		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		assertEquals("chromedriver.exe", fileInfo.getName());
+		assertEquals(filePath, fileInfo.getPath());
+		assertEquals(0, fileInfo.getLines());
+		assertEquals(new BigDecimal("7.41"), fileInfo.getSize());
 		
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
