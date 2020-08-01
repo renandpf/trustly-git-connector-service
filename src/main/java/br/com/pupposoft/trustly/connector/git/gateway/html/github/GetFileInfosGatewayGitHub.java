@@ -35,7 +35,7 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	
 	@Override
 	public FileInfo getByPath(final String filePath) {
-		final String pageContent = connectorGatewayFactory.load(filePath);
+		final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);
 		final String fileName = this.getFileName(pageContent);
 		final Long lineNumber = this.getLineNumber(pageContent);
 		final BigDecimal fileSize = this.getFileSize(pageContent);
