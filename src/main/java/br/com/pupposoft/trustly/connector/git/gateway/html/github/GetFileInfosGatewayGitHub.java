@@ -32,22 +32,20 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	}
 
 	private String getLineNumber(final String pageContent) {
-		final int indexStartTag = pageContent.indexOf(LINE_NUMBER_START_TAG);
-		final int indexEndTag = pageContent.indexOf(LINE_NUMBER_END_TAG, indexStartTag);
-		final String tag = pageContent.substring(indexStartTag, indexEndTag);
-		final int indexStart = tag.indexOf(LINE_NUMBER_START);
-		final String lineNumber = tag.substring(indexStart+1).trim();
-		return lineNumber;
+		return this.getValueInsideTag(pageContent, LINE_NUMBER_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START);
 	}
 
 	private String getFileName(final String pageContent) {
-		final int indexStartTagName = pageContent.indexOf(FILE_NAME_START_TAG);
-		final int indexEndTagName = pageContent.indexOf(FILE_NAME_END_TAG, indexStartTagName);
-		final String tagFileName = pageContent.substring(indexStartTagName, indexEndTagName);
-		final int indexStartName = tagFileName.indexOf(FILE_NAME_START_NAME);
-		final String fileName = tagFileName.substring(indexStartName+1).trim();
-		
-		return fileName;
+		return this.getValueInsideTag(pageContent, FILE_NAME_START_TAG, FILE_NAME_END_TAG, FILE_NAME_START_NAME);
+	}
+	
+	//TODO: Maybe is better stay inside of any util class
+	private String getValueInsideTag(final String source, final String startTag, final String endTag, final String startValue) {
+		final int indexStartTag = source.indexOf(startTag);
+		final int indexEndTag = source.indexOf(endTag, indexStartTag);
+		final String tag = source.substring(indexStartTag, indexEndTag);
+		final int indexStartValue = tag.indexOf(startValue);
+		return tag.substring(indexStartValue+1).trim();
 	}
 
 }
