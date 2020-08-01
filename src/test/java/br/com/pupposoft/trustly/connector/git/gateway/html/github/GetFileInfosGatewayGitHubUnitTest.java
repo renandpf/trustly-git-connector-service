@@ -41,6 +41,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
 		assertEquals("pom.xml", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
+		assertEquals(87, fileInfo.getLines());
 		//TODO - demais asserts
 		
 		verify(this.connectorGatewayFactory).load(filePath);
