@@ -11,6 +11,7 @@ public class FileInfoTemplate {
 	public static final String TXT = "TXT";
 	public static final String JAVA = "JAVA";
 	public static final String TS = "TS";
+	public static final String NO_EXTENSION = "NO_EXTENSION";
 
 	protected static void load() {
 
@@ -34,6 +35,13 @@ public class FileInfoTemplate {
 			{
 				add("name", random("file_01.ts", "file_02.ts"));
 				add("path", random("/dir/file_01.ts", "/dir/file_02.ts"));
+			}
+		});
+		
+		Fixture.of(FileInfo.class).addTemplate(NO_EXTENSION).inherits(TXT, new Rule() {
+			{
+				add("name", random("file_01", "file_02"));
+				add("path", random("/dir/file_01", "/dir/file_02"));
 			}
 		});
 	}
