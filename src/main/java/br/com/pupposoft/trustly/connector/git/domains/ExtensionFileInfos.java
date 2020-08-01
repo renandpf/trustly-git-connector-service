@@ -12,4 +12,12 @@ import lombok.NoArgsConstructor;
 public class ExtensionFileInfos {
 	private String extensionName;
 	private List<FileInfo> files;
+	
+	public Long getAmountLines() {
+		return this.files
+			.stream()
+			.filter(fileInfo -> fileInfo.getLines() != null)
+			.mapToLong(fileInfo -> fileInfo.getLines())
+			.reduce(0, Long::sum);
+	}
 }

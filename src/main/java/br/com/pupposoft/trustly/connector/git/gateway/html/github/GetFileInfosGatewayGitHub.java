@@ -52,7 +52,7 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 			return Long.valueOf(this.getValueInsideTag(pageContent, FILE_INFOS_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START));
 		}
 		
-		return null;
+		return 0L;
 	}
 
 	private String getFileName(final String pageContent) {

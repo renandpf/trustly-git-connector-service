@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -111,7 +110,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
 		assertEquals("chromedriver.exe", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
-		assertNull(fileInfo.getLines());
+		assertEquals(0L, fileInfo.getLines());
 		assertEquals(new BigDecimal("7.41"), fileInfo.getFileSize().getSize());
 		assertEquals(Measurement.MBYTES, fileInfo.getFileSize().getMeasurement());
 		

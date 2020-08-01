@@ -10,7 +10,7 @@ import br.com.six2six.fixturefactory.Rule;
 
 public class FileInfoTemplate {
 
-	private static final String ANY_SIZE = "ANY_SIZE";
+	public static final String ANY_SIZE = "ANY_SIZE";
 	public static final String TXT = "TXT";
 	public static final String JAVA = "JAVA";
 	public static final String TS = "TS";
