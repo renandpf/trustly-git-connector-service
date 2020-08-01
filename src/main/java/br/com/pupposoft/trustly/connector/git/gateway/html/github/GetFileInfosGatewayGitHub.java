@@ -33,28 +33,30 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	public FileInfo getByPath(final String filePath) {
 		final String pageContent = connectorGatewayFactory.load(filePath);
 		final String fileName = this.getFileName(pageContent);
-		final String lineNumber = this.getLineNumber(pageContent);
-		final String fileSize = this.getFileSize(pageContent);
+		final Long lineNumber = this.getLineNumber(pageContent);
+		final BigDecimal fileSize = this.getFileSize(pageContent);
 		
-		return new FileInfo(fileName, filePath, Long.valueOf(lineNumber), new BigDecimal(fileSize));
+		return new FileInfo(fileName, filePath, lineNumber, fileSize);
 	}
 
-	private String getLineNumber(final String pageContent) {
-		return this.getValueInsideTag(pageContent, LINE_NUMBER_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START);
+	private Long getLineNumber(final String pageContent) {
+		return Long.valueOf(this.getValueInsideTag(pageContent, LINE_NUMBER_START_TAG, LINE_NUMBER_END_TAG, LINE_NUMBER_START));
 	}
 
 	private String getFileName(final String pageContent) {
 		return this.getValueInsideTag(pageContent, FILE_NAME_START_TAG, FILE_NAME_END_TAG, FILE_NAME_START);
 	}
 	
-	private String getFileSize(final String pageContent) {
+	private BigDecimal getFileSize(final String pageContent) {
 		final String fileSize = this.getValueInsideTag(pageContent, FILE_SIZE_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
 		
-		return fileSize
+		final String fileSizeClean = fileSize
 				.replace(FILE_SIZE_SPAN_CLEAN, "")
 				.replace(FILE_SIZE_KB_CLEAN, "")
 				.replace(FILE_SIZE_BYTES_CLEAN, "")
 				.trim();
+		
+		return new BigDecimal(fileSizeClean);
 	}
 	
 	//TODO: Maybe this method is better stay inside of any util class
