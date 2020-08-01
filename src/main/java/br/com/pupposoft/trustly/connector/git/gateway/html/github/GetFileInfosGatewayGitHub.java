@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
+import br.com.pupposoft.trustly.connector.git.domains.FileSize;
+import br.com.pupposoft.trustly.connector.git.domains.Measurement;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
@@ -38,7 +40,7 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 		final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);
 		final String fileName = this.getFileName(pageContent);
 		final Long lineNumber = this.getLineNumber(pageContent);
-		final BigDecimal fileSize = this.getFileSize(pageContent);
+		final FileSize fileSize = this.getFileSize(pageContent);
 		
 		return new FileInfo(fileName, filePath, lineNumber, fileSize);
 	}
@@ -55,22 +57,42 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 		return this.getValueInsideTag(pageContent, FILE_NAME_START_TAG, FILE_NAME_END_TAG, FILE_NAME_START);
 	}
 	
-	private BigDecimal getFileSize(final String pageContent) {
-		String fileSize = null;
+	private FileSize getFileSize(final String pageContent) {
+		final String fileSize = getFileSizeFromPageRule(pageContent);
+		final Measurement measurement = getMesurement(fileSize);
+		final String fileSizeClean = cleanFileSizeNumber(fileSize);
+		
+		return new FileSize(new BigDecimal(fileSizeClean), measurement);
+	}
+
+	private String getFileSizeFromPageRule(final String pageContent) {
+		String fileSize;
 		if(pageContent.contains(FILE_INFO_DIVIDER_CLASS)) {
 			fileSize = this.getValueInsideTag(pageContent, FILE_SIZE_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
 		}else {
 			fileSize = this.getValueInsideTag(pageContent, FILE_INFOS_START_TAG, FILE_SIZE_END_TAG, FILE_SIZE_START);
 		}
-		
+		return fileSize;
+	}
+
+	private String cleanFileSizeNumber(String fileSize) {
 		final String fileSizeClean = fileSize
 				.replace(FILE_SIZE_SPAN_CLEAN, "")
 				.replace(FILE_SIZE_KB_CLEAN, "")
 				.replace(FILE_SIZE_BYTES_CLEAN, "")
 				.replace(FILE_SIZE_MBYTES_CLEAN, "")
 				.trim();
-		
-		return new BigDecimal(fileSizeClean);
+		return fileSizeClean;
+	}
+
+	private Measurement getMesurement(String fileSize) {
+		Measurement measurement = Measurement.BYTES;
+		if(fileSize.contains(FILE_SIZE_KB_CLEAN)) {
+			measurement = Measurement.KBYTES;
+		}else if(fileSize.contains(FILE_SIZE_MBYTES_CLEAN)){
+			measurement = Measurement.MBYTES;
+		}
+		return measurement;
 	}
 	
 	//TODO: Maybe this method is better stay inside of any util class

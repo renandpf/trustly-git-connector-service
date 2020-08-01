@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
+import br.com.pupposoft.trustly.connector.git.domains.Measurement;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
@@ -47,8 +48,8 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals("pom.xml", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(87, fileInfo.getLines());
-		assertEquals(new BigDecimal("2.11"), fileInfo.getSize());
-
+		assertEquals(new BigDecimal("2.11"), fileInfo.getFileSize().getSize());
+		assertEquals(Measurement.KBYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
 		verify(this.httpConnectorGateway).load(filePath);
@@ -63,7 +64,8 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals(".gitignore", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(8, fileInfo.getLines());
-		assertEquals(new BigDecimal("82"), fileInfo.getSize());
+		assertEquals(new BigDecimal("82"), fileInfo.getFileSize().getSize());
+		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
 	}
@@ -77,7 +79,8 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals("README.md", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(1, fileInfo.getLines());
-		assertEquals(new BigDecimal("7"), fileInfo.getSize());
+		assertEquals(new BigDecimal("7"), fileInfo.getFileSize().getSize());
+		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
 	}
@@ -91,7 +94,8 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals("GitTrustlyConnectorService.java", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(14, fileInfo.getLines());
-		assertEquals(new BigDecimal("448"), fileInfo.getSize());
+		assertEquals(new BigDecimal("448"), fileInfo.getFileSize().getSize());
+		assertEquals(Measurement.BYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
 	}
@@ -105,7 +109,8 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		assertEquals("chromedriver.exe", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertNull(fileInfo.getLines());
-		assertEquals(new BigDecimal("7.41"), fileInfo.getSize());
+		assertEquals(new BigDecimal("7.41"), fileInfo.getFileSize().getSize());
+		assertEquals(Measurement.MBYTES, fileInfo.getFileSize().getMeasurement());
 		
 		verify(this.connectorGatewayFactory).get(filePath);
 	}

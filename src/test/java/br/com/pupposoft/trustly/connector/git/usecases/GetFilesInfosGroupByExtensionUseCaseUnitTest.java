@@ -61,12 +61,14 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(fileInfoA.getName(), txtExtensionInfos.getFiles().get(0).getName());
 		assertEquals(fileInfoA.getLines(), txtExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(fileInfoA.getPath(), txtExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(fileInfoA.getSize(), txtExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(fileInfoA.getFileSize().getSize(), txtExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(fileInfoA.getFileSize().getMeasurement(), txtExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 		
 		assertEquals(fileInfoB.getName(), txtExtensionInfos.getFiles().get(1).getName());
 		assertEquals(fileInfoB.getLines(), txtExtensionInfos.getFiles().get(1).getLines());
 		assertEquals(fileInfoB.getPath(), txtExtensionInfos.getFiles().get(1).getPath());
-		assertEquals(fileInfoB.getSize(), txtExtensionInfos.getFiles().get(1).getSize());
+		assertEquals(fileInfoB.getFileSize().getSize(), txtExtensionInfos.getFiles().get(1).getFileSize().getSize());
+		assertEquals(fileInfoB.getFileSize().getMeasurement(), txtExtensionInfos.getFiles().get(1).getFileSize().getMeasurement());
 		
 		final ArgumentCaptor<String> filesPathsCaptor = ArgumentCaptor.forClass(String.class);
 		verify(getFileInfosGateway, VerificationModeFactory.times(2)).getByPath(filesPathsCaptor.capture());
@@ -102,7 +104,8 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(txtFile.getName(), txtExtensionInfos.getFiles().get(0).getName());
 		assertEquals(txtFile.getLines(), txtExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(txtFile.getPath(), txtExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(txtFile.getSize(), txtExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(txtFile.getFileSize().getSize(), txtExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(txtFile.getFileSize().getMeasurement(), txtExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 		
 		final ExtensionFileInfos javaExtensionInfos = getExtensionFileByExtensionName(extensionFileInfosReturned, "java");
 		assertEquals("java", javaExtensionInfos.getExtensionName());
@@ -110,11 +113,12 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(javaFile.getName(), javaExtensionInfos.getFiles().get(0).getName());
 		assertEquals(javaFile.getLines(), javaExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(javaFile.getPath(), javaExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(javaFile.getSize(), javaExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(javaFile.getFileSize().getSize(), javaExtensionInfos.getFiles().get(0).getFileSize().getSize());
 		assertEquals(java2File.getName(), javaExtensionInfos.getFiles().get(1).getName());
 		assertEquals(java2File.getLines(), javaExtensionInfos.getFiles().get(1).getLines());
 		assertEquals(java2File.getPath(), javaExtensionInfos.getFiles().get(1).getPath());
-		assertEquals(java2File.getSize(), javaExtensionInfos.getFiles().get(1).getSize());
+		assertEquals(java2File.getFileSize().getSize(), javaExtensionInfos.getFiles().get(1).getFileSize().getSize());
+		assertEquals(java2File.getFileSize().getMeasurement(), javaExtensionInfos.getFiles().get(1).getFileSize().getMeasurement());
 		
 		final ExtensionFileInfos tsExtensionInfos = getExtensionFileByExtensionName(extensionFileInfosReturned, "ts");
 		assertEquals("ts", tsExtensionInfos.getExtensionName());
@@ -122,8 +126,8 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(tsFile.getName(), tsExtensionInfos.getFiles().get(0).getName());
 		assertEquals(tsFile.getLines(), tsExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(tsFile.getPath(), tsExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(tsFile.getSize(), tsExtensionInfos.getFiles().get(0).getSize());
-
+		assertEquals(tsFile.getFileSize().getSize(), tsExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(tsFile.getFileSize().getMeasurement(), tsExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 	}
 	
 	@Test
@@ -154,7 +158,8 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(txtFile.getName(), txtExtensionInfos.getFiles().get(0).getName());
 		assertEquals(txtFile.getLines(), txtExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(txtFile.getPath(), txtExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(txtFile.getSize(), txtExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(txtFile.getFileSize().getSize(), txtExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(txtFile.getFileSize().getMeasurement(), txtExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 
 		final ExtensionFileInfos javaExtensionInfos = getExtensionFileByExtensionName(extensionFileInfosReturned, "java");
 		assertEquals("java", javaExtensionInfos.getExtensionName());
@@ -162,7 +167,8 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(javaFile.getName(), javaExtensionInfos.getFiles().get(0).getName());
 		assertEquals(javaFile.getLines(), javaExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(javaFile.getPath(), javaExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(javaFile.getSize(), javaExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(javaFile.getFileSize().getSize(), javaExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(javaFile.getFileSize().getMeasurement(), javaExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 
 		final ExtensionFileInfos noExtensionInfos = getExtensionFileByExtensionName(extensionFileInfosReturned, "");
 		assertEquals("", noExtensionInfos.getExtensionName());
@@ -170,11 +176,12 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(noExtensionFile.getName(), noExtensionInfos.getFiles().get(0).getName());
 		assertEquals(noExtensionFile.getLines(), noExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(noExtensionFile.getPath(), noExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(noExtensionFile.getSize(), noExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(noExtensionFile.getFileSize().getSize(), noExtensionInfos.getFiles().get(0).getFileSize().getSize());
 		assertEquals(noExtension2File.getName(), noExtensionInfos.getFiles().get(1).getName());
 		assertEquals(noExtension2File.getLines(), noExtensionInfos.getFiles().get(1).getLines());
 		assertEquals(noExtension2File.getPath(), noExtensionInfos.getFiles().get(1).getPath());
-		assertEquals(noExtension2File.getSize(), noExtensionInfos.getFiles().get(1).getSize());
+		assertEquals(noExtension2File.getFileSize().getSize(), noExtensionInfos.getFiles().get(1).getFileSize().getSize());
+		assertEquals(noExtension2File.getFileSize().getMeasurement(), noExtensionInfos.getFiles().get(1).getFileSize().getMeasurement());
 		
 		final ExtensionFileInfos tsExtensionInfos = getExtensionFileByExtensionName(extensionFileInfosReturned, "ts");
 		assertEquals("ts", tsExtensionInfos.getExtensionName());
@@ -182,7 +189,8 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		assertEquals(tsFile.getName(), tsExtensionInfos.getFiles().get(0).getName());
 		assertEquals(tsFile.getLines(), tsExtensionInfos.getFiles().get(0).getLines());
 		assertEquals(tsFile.getPath(), tsExtensionInfos.getFiles().get(0).getPath());
-		assertEquals(tsFile.getSize(), tsExtensionInfos.getFiles().get(0).getSize());
+		assertEquals(tsFile.getFileSize().getSize(), tsExtensionInfos.getFiles().get(0).getFileSize().getSize());
+		assertEquals(tsFile.getFileSize().getMeasurement(), tsExtensionInfos.getFiles().get(0).getFileSize().getMeasurement());
 	}
 
 	private ExtensionFileInfos getExtensionFileByExtensionName(

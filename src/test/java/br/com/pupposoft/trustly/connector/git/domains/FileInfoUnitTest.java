@@ -10,14 +10,14 @@ public class FileInfoUnitTest {
 
 	@Test
 	public void getExtension() {
-		final FileInfo fileInfo = new FileInfo("test.txt", "path/test.txt", 15L, new BigDecimal("55.5"));
+		final FileInfo fileInfo = new FileInfo("test.txt", "path/test.txt", 15L, new FileSize(new BigDecimal("55.5"), Measurement.BYTES));
 		final String extension = fileInfo.getExtension();
 		assertEquals("txt", extension);
 	}
 	
 	@Test
 	public void getExtensionFromFileWithouExtension() {
-		final FileInfo fileInfo = new FileInfo("test", "path/test", 15L, new BigDecimal("55.5"));
+		final FileInfo fileInfo = new FileInfo("test", "path/test", 15L, new FileSize(new BigDecimal("55.5"), Measurement.BYTES));
 		final String extension = fileInfo.getExtension();
 		assertEquals("", extension);
 	}

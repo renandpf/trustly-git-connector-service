@@ -1,7 +1,5 @@
 package br.com.pupposoft.trustly.connector.git.domains;
 
-import java.math.BigDecimal;
-
 import org.springframework.util.StringUtils;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +11,7 @@ public class FileInfo {
 	private String name;
 	private String path;
 	private Long lines;
-	private BigDecimal size;
+	private FileSize fileSize;
 	
 	public String getExtension() {
 		final String extension = StringUtils.getFilenameExtension(this.name);
