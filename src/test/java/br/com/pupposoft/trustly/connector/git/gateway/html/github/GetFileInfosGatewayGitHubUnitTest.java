@@ -64,6 +64,23 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		
 		verify(this.connectorGatewayFactory).load(filePath);
 	}
+
+	@Test
+	public void getInfosReadmeFile() {
+		final String filePath = "anyFilePath";
+		
+		final String pageContent = this.loadFileFromResource("pages/github/readme-example-page.html");
+		doReturn(pageContent).when(this.connectorGatewayFactory).load(filePath);
+		
+		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		assertEquals("README.md", fileInfo.getName());
+		assertEquals(filePath, fileInfo.getPath());
+		assertEquals(1, fileInfo.getLines());
+		assertEquals(new BigDecimal("7"), fileInfo.getSize());
+		
+		verify(this.connectorGatewayFactory).load(filePath);
+	}
+
 	
 	private String loadFileFromResource(final String path) {
 
