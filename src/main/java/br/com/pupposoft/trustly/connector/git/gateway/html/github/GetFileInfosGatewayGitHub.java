@@ -42,6 +42,8 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 		final Long lineNumber = this.getLineNumber(pageContent);
 		final FileSize fileSize = this.getFileSize(pageContent);
 		
+		//TODO: tratar e lancçar exceção especifica!
+		
 		return new FileInfo(fileName, filePath, lineNumber, fileSize);
 	}
 
