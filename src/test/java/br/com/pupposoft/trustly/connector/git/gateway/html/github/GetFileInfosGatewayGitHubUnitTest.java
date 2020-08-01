@@ -85,7 +85,6 @@ public class GetFileInfosGatewayGitHubUnitTest {
 	@Test
 	public void getInfosJavaFile() {
 		final String filePath = "anyFilePath";
-		
 		this.mockLoadHtml("pages/github/java-example-page.html", filePath);
 		
 		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
