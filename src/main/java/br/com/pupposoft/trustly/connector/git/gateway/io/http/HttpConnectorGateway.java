@@ -1,6 +1,7 @@
 package br.com.pupposoft.trustly.connector.git.gateway.io.http;
 
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.io.exceptions.ErrorToGetHttpResourceGatewayException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,7 +15,7 @@ public class HttpConnectorGateway implements ConnectorGateway {
 			OkHttpClient client = new OkHttpClient().newBuilder().build();
 			final Request request = new Request.Builder()
 					.url(filePath)
-					.method("GET", null)
+					.method("GET", null)//TODO: Receive method in parameter
 					.build();
 			final Response response = client.newCall(request).execute();
 			
@@ -22,13 +23,10 @@ public class HttpConnectorGateway implements ConnectorGateway {
 				return new String(response.body().bytes());
 			}
 			
-			// TODO: Lancar exceção especifica!!
-			throw new RuntimeException("Error to get http resource!");
+			throw new ErrorToGetHttpResourceGatewayException();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: Lancar exceção especifica!!
-			throw new RuntimeException(e);
+		} catch (final Exception e) {
+			throw new ErrorToGetHttpResourceGatewayException();
 		}
 	}
 
