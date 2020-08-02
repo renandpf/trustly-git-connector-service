@@ -21,6 +21,8 @@ public class HttpConnectorGateway implements ConnectorGateway {
 		try {
 			OkHttpClient client = new OkHttpClient.Builder()
 				      .connectTimeout(0, TimeUnit.MILLISECONDS)
+				      .readTimeout(0, TimeUnit.MILLISECONDS)
+				      .writeTimeout(0, TimeUnit.MILLISECONDS)
 				      .build();
 			
 			final Request request = new Request.Builder()
