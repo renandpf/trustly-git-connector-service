@@ -1,6 +1,7 @@
 package br.com.pupposoft.trustly.connector.git.gateway.html.github;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,33 +10,48 @@ import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory
 
 @Component
 public class GetAllFilesPathGitHubScrap {
+	private static final String DATA_URL_ID_CLEAN = "\"";
+	private static final String DATA_URL_ID = "/";
+	private static final String DATA_URL_ID_END = "mark-selector=\".js-tree-browser-result-path\"";
+	private static final String DATA_URL_ID_START = "max-matches";
 
 	@Autowired
 	private ConnectorGatewayFactory connectorGatewayFactory;
+	
+	@Autowired
+	private GetAllFilePathsRestGitHub getAllFilePathsRestGitHub;
 
 	public List<String> get(final String urlAllFiles) {
 		final String pageContent = this.connectorGatewayFactory.get(urlAllFiles).load(urlAllFiles);
 		
-		//Buscar pelo ID do 'data-url' usando: 'mark-selector=".js-tree-browser-result-path"'.
-		//Em seguida, deve chamar a URL (equivalente): '/renandpf/backend-challenge/tree-list/84112756b6aef53ea80711a6d907417f6213a75c'
-		//Será retornado um JSON conforme salvo no arquivo 'all-files-data-url.json'
+		final String dataId = this.getDataUrlId(pageContent);
+		final String baseRepositoryPath = this.getBaseRepositoryPath(urlAllFiles);
+		final String filesPathsDataSourceUrl = this.makeDataSourceUrl(dataId, baseRepositoryPath);
+
+		final List<String> paths = this.getAllFilePathsRestGitHub.getPaths(filesPathsDataSourceUrl);
+		final List<String> filesLocations = paths.stream().map(path -> baseRepositoryPath + "/blob/master/" + path).collect(Collectors.toList());
 		
-		final int startindexOfId = pageContent.indexOf("max-matches");
-		final int endIndexOfId = pageContent.indexOf("mark-selector=\".js-tree-browser-result-path\"");
-		final String dataUrl = pageContent.substring(startindexOfId, endIndexOfId);
-		//max-matches="50" data-url="/renandpf/trustly-git-connector-service/tree-list/8f193439efd30176df9911fb9540f41ee9c17e92" 
-		
-		//TODO: implementar
-		return null;
+		return filesLocations;
 	}
-	
-	//TODO: Maybe this method is better stay inside of any util class
-	private String getValueInsideTag(final String source, final String startTag, final String endTag, final String startValue) {
-		final int indexStartTag = source.indexOf(startTag);
-		final int indexEndTag = source.indexOf(endTag, indexStartTag);
-		final String tag = source.substring(indexStartTag, indexEndTag);
-		final int indexStartValue = tag.indexOf(startValue);
-		return tag.substring(indexStartValue+1).trim();
+
+	private String makeDataSourceUrl(final String dataId, final String baseRepositoryPath) {
+		final String filesPathsDataSourceUrl = baseRepositoryPath + "/tree-list/" + dataId;
+		return filesPathsDataSourceUrl;
+	}
+
+	private String getBaseRepositoryPath(final String urlAllFiles) {
+		final int endIndex = urlAllFiles.indexOf("/find/master");
+		final String baseRepositoryPath = urlAllFiles.substring(0, endIndex);
+		return baseRepositoryPath.trim();
+	}
+
+	private String getDataUrlId(final String pageContent) {
+		
+		final int startindexOfId = pageContent.indexOf(DATA_URL_ID_START);
+		final int endIndexOfId = pageContent.indexOf(DATA_URL_ID_END);
+		final String dataUrl = pageContent.substring(startindexOfId, endIndexOfId);
+		final String dataId = dataUrl.substring(dataUrl.lastIndexOf(DATA_URL_ID)+1).replace(DATA_URL_ID_CLEAN, "");
+		return dataId.trim();
 	}
 
 }
