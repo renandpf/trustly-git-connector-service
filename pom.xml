@@ -54,6 +54,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.2.32</version>
+		</dependency>
+
+
 		<!-- START TEST -->
 		<dependency>
 			<groupId>junit</groupId>
