@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.domains.FileSize;
 import br.com.pupposoft.trustly.connector.git.domains.Measurement;
-import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGetGitFileInfoGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 

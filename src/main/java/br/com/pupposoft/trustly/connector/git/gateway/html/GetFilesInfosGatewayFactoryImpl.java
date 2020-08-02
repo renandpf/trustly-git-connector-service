@@ -9,12 +9,14 @@ import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.UnknownRep
 public class GetFilesInfosGatewayFactoryImpl implements GetFilesInfosGatewayFactory {
 
 	@Autowired
-	private GetFileInfosGateway getFileInfosGateway;
+	private GetFileInfosGateway getFileInfosGitHubGateway;
+	
+	//Put here other repositories implementations vendors!
 	
 	@Override
 	public GetFileInfosGateway get(final String url) {
 		if(url.contains("github.com")) {
-			return this.getFileInfosGateway;
+			return this.getFileInfosGitHubGateway;
 		}
 		
 		throw new UnknownRepositoryGatewayException();

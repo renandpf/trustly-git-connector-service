@@ -16,7 +16,7 @@ public class GetFilesInfosGatewayFactoryImplUnitTest {
 	private GetFilesInfosGatewayFactory getFilesGatewayFactory = new GetFilesInfosGatewayFactoryImpl();
 	
 	@Mock
-	private GetFileInfosGateway getFileInfosGateway;
+	private GetFileInfosGateway getFileInfosGitHubGateway;
 	
 	@Before
 	public void InitMock() {
@@ -29,7 +29,7 @@ public class GetFilesInfosGatewayFactoryImplUnitTest {
 
 		final GetFileInfosGateway getFileInfosGateway = this.getFilesGatewayFactory.get(url);
 		
-		assertEquals(this.getFileInfosGateway, getFileInfosGateway);
+		assertEquals(this.getFileInfosGitHubGateway, getFileInfosGateway);
 	}
 	
 	@Test(expected = UnknownRepositoryGatewayException.class)

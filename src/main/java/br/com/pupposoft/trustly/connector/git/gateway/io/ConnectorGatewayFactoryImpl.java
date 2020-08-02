@@ -11,6 +11,8 @@ public class ConnectorGatewayFactoryImpl implements ConnectorGatewayFactory {
 	@Autowired
 	private ConnectorGateway httpConnectorGateway;
 	
+	//Put here other protocols implementations!
+	
 	@Override
 	public ConnectorGateway get(final String filePath) {
 		

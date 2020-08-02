@@ -15,13 +15,13 @@ public class GetFileInfosGitHubGateway implements GetFileInfosGateway {
 	private GetFileInfosGitHubScrap getFileInfosGitHubScrap; 
 	
 	@Override
-	public FileInfo getByPath(String filePath) {
+	public FileInfo getByPath(final String filePath) {
 		//TODO: Create unit test!!
 		return this.getFileInfosGitHubScrap.getByPath(filePath);
 	}
 
 	@Override
-	public List<String> getAllFilesPath(String urlAllFiles) {
+	public List<String> getAllFilesPath(final String urlAllFiles) {
 		// TODO Implementar
 		return null;
 	}
