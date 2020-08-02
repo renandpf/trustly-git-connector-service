@@ -1,23 +1,33 @@
 package br.com.pupposoft.trustly.connector.git.usecases;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesPathsGateway;
+import br.com.pupposoft.trustly.connector.git.usecases.exceptions.UnknownRepositoryBusinessException;
 
 @Service
 public class GetAllFilesPathUseCase {
 
+	@Autowired
+	private GetFilesPathsGateway getFilesPathsGateway;
+	
 	public List<String> get(final String urlBase) {
-		// TODO Implementar
+		final String urlAllFiles = this.getAllPathFile(urlBase);
 		
-		final List<String> allPathMock = Arrays.asList(
-				"https://github.com/renandpf/trustly-git-connector-service/blob/master/.gitignore",
-				"https://github.com/renandpf/trustly-git-connector-service/blob/master/README.md",
-				"https://github.com/renandpf/trustly-git-connector-service/blob/master/pom.xml");
+		final List<String> allFilesPaths = this.getFilesPathsGateway.get(urlAllFiles);
 		
+		return allFilesPaths;
+	}
+
+	private String getAllPathFile(final String urlBase) {
+		if(urlBase.contains("github.com")) {
+			return urlBase + "/find/master";
+		}
 		
-		return allPathMock;
+		throw new UnknownRepositoryBusinessException();
 	}
 
 }
