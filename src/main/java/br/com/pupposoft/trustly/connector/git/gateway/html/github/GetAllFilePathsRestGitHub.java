@@ -8,15 +8,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import br.com.pupposoft.trustly.connector.git.gateway.html.github.exceptions.ErrorToGetAllPathsFilesGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.html.github.json.AllFilePathsResponseJson;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 class GetAllFilePathsRestGitHub {
 
 	public List<String> getPaths(final String filesPathsDataSourceUrl) {
 
 		try {
-			//TODO: 'WebClient' is thrown any exceptions in console. But the request works fine.
-			
+			log.trace("filesPathsDataSourceUrl: {}", filesPathsDataSourceUrl);
 			@SuppressWarnings("rawtypes")
 			WebClient.RequestHeadersSpec requestSpec = WebClient
 					.create()
@@ -31,8 +32,8 @@ class GetAllFilePathsRestGitHub {
 					.block();
 			
 			return response.getPaths();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (final Exception e) {
+			log.error(e.getMessage(), e);
 			throw new ErrorToGetAllPathsFilesGatewayException();
 		}
 	}

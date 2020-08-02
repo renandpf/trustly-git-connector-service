@@ -1,0 +1,30 @@
+<configuration>
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/trustly-git-connector-service.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- rollover daily -->
+      <fileNamePattern>logs/trustly-git-connector-service-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+       <!-- each file should be at most 100MB, keep 2 days worth of history, but at most 500MB -->
+       <maxFileSize>100MB</maxFileSize>    
+       <maxHistory>5</maxHistory>
+       <totalSizeCap>700MB</totalSizeCap>
+    </rollingPolicy>
+     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+           <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+      </encoder>
+  </appender>
+ 
+    <root level="info">
+        <appender-ref ref="Console" />
+    </root>
+ 
+    <logger name="br.com.pupposoft.trustly.connector" level="TRACE">
+        <appender-ref ref="RollingFile" />
+    </logger>
+</configuration>

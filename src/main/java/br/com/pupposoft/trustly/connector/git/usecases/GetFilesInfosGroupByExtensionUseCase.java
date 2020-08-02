@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import br.com.pupposoft.trustly.connector.git.domains.ExtensionFileInfos;
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class GetFilesInfosGroupByExtensionUseCase {
 
@@ -20,6 +22,7 @@ public class GetFilesInfosGroupByExtensionUseCase {
 	private GetFilesInfosGatewayFactory getFilesInfosGatewayFactory;
 	
 	public List<ExtensionFileInfos> get(final List<String> filesPath) {
+		log.trace("filesPath: ", filesPath);
 		final List<FileInfo> filesInfo = this.getFilesInfos(filesPath);
 		return this.groupByExtension(filesInfo);
 	}

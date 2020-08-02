@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class GetAllFilesPathGitHubScrap {
 	private static final String DATA_URL_ID_CLEAN = "\"";
@@ -22,6 +24,7 @@ public class GetAllFilesPathGitHubScrap {
 	private GetAllFilePathsRestGitHub getAllFilePathsRestGitHub;
 
 	public List<String> get(final String urlAllFiles) {
+		log.trace("urlAllFiles: {}", urlAllFiles);
 		final String pageContent = this.connectorGatewayFactory.get(urlAllFiles).load(urlAllFiles);
 		
 		final String dataId = this.getDataUrlId(pageContent);

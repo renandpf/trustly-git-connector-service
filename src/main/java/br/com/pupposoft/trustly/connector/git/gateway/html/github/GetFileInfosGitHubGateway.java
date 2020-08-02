@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class GetFileInfosGitHubGateway implements GetFileInfosGateway {
 
@@ -24,6 +26,7 @@ public class GetFileInfosGitHubGateway implements GetFileInfosGateway {
 
 	@Override
 	public List<String> getAllFilesPath(final String urlAllFiles) {
+		log.trace("urlAllFiles: {}", urlAllFiles);
 		return this.getAllFilesPathGitHubScrap.get(urlAllFiles);
 	}
 }

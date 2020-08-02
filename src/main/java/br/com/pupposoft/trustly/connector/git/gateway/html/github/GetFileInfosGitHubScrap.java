@@ -10,7 +10,9 @@ import br.com.pupposoft.trustly.connector.git.domains.FileSize;
 import br.com.pupposoft.trustly.connector.git.domains.Measurement;
 import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGetGitFileInfoGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class GetFileInfosGitHubScrap {
 	private static final String FILE_INFO_DIVIDER_CLASS = "<span class=\"file-info-divider\"></span>";
@@ -36,6 +38,7 @@ public class GetFileInfosGitHubScrap {
 	private ConnectorGatewayFactory connectorGatewayFactory;
 	
 	public FileInfo getByPath(final String filePath) {
+		log.trace("filePath: {}", filePath);
 		try {
 			final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);
 			final String fileName = this.getFileName(pageContent);
@@ -44,7 +47,7 @@ public class GetFileInfosGitHubScrap {
 			
 			return new FileInfo(fileName, filePath, lineNumber, fileSize);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			throw new ErrorToGetGitFileInfoGatewayException();
 		}
 	}
@@ -99,7 +102,6 @@ public class GetFileInfosGitHubScrap {
 		return measurement;
 	}
 	
-	//TODO: Maybe this method is better stay inside of any util class
 	private String getValueInsideTag(final String source, final String startTag, final String endTag, final String startValue) {
 		final int indexStartTag = source.indexOf(startTag);
 		final int indexEndTag = source.indexOf(endTag, indexStartTag);

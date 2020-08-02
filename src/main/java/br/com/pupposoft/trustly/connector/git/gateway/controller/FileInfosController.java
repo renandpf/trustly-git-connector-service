@@ -31,6 +31,8 @@ public class FileInfosController {
 	@PostMapping
 	public List<ExtensionFileInfosJson> getExtensionFileInfos(
 			final @RequestBody(required = true) ExtensionFileInfosRequestJson extensionFileInfosRequestJson){
+		log.trace("extensionFileInfosRequestJson: {}", extensionFileInfosRequestJson);
+		
 		final List<ExtensionFileInfos> extensionFileInfos = this.getFilesInfosOrquestrator.get(extensionFileInfosRequestJson.getRepositoryBaseUrl());
 		final List<ExtensionFileInfosJson> extensionFileInfosJson = 
 				extensionFileInfos

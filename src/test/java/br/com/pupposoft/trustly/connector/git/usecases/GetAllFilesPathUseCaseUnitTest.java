@@ -12,7 +12,7 @@ import org.mockito.internal.verification.VerificationModeFactory;
 
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
-import br.com.pupposoft.trustly.connector.git.usecases.exceptions.UnknownRepositoryBusinessException;
+import br.com.pupposoft.trustly.connector.git.usecases.exceptions.UnknownGitRepositoryBusinessException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -54,14 +54,14 @@ public class GetAllFilesPathUseCaseUnitTest {
 		verify(this.getFilesInfosGatewayFactory).get(urlAllFilesExpected);
 	}
 	
-	@Test(expected = UnknownRepositoryBusinessException.class)
+	@Test(expected = UnknownGitRepositoryBusinessException.class)
 	public void getWithUnknownRepositoryException() {
 		final String urlBase = "https://gitlab.com/renandpf-cursos/biometria-digital/poc-biometric-client-api";
 		
 		try {
 			this.getAllFilesPathUseCase.get(urlBase);
 			
-		} catch (UnknownRepositoryBusinessException e) {
+		} catch (UnknownGitRepositoryBusinessException e) {
 			verify(this.getFilesInfosGatewayFactory, VerificationModeFactory.noInteractions()).get(anyString());
 			throw e;
 		}
