@@ -1,5 +1,7 @@
 package br.com.pupposoft.trustly.connector.git.gateway.io.http;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.stereotype.Component;
 
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
@@ -17,10 +19,14 @@ public class HttpConnectorGateway implements ConnectorGateway {
 	public String load(final String filePath) {
 		log.trace("filePath: {}", filePath);
 		try {
-			OkHttpClient client = new OkHttpClient().newBuilder().build();
+			OkHttpClient client = new OkHttpClient.Builder()
+				      .connectTimeout(0, TimeUnit.MILLISECONDS)
+				      .build();
+			
 			final Request request = new Request.Builder()
 					.url(filePath)
 					.method("GET", null)//TODO: Receive method in parameter
+					
 					.build();
 			final Response response = client.newCall(request).execute();
 			
