@@ -12,17 +12,18 @@ import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 public class GetFileInfosGitHubGateway implements GetFileInfosGateway {
 
 	@Autowired
-	private GetFileInfosGitHubScrap getFileInfosGitHubScrap; 
+	private GetFileInfosGitHubScrap getFileInfosGitHubScrap;
+	
+	@Autowired
+	private GetAllFilesPathGitHubScrap getAllFilesPathGitHubScrap;
 	
 	@Override
 	public FileInfo getByPath(final String filePath) {
-		//TODO: Create unit test!!
 		return this.getFileInfosGitHubScrap.getByPath(filePath);
 	}
 
 	@Override
 	public List<String> getAllFilesPath(final String urlAllFiles) {
-		// TODO Implementar
-		return null;
+		return this.getAllFilesPathGitHubScrap.get(urlAllFiles);
 	}
 }
