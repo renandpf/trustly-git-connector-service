@@ -1,11 +1,14 @@
 package br.com.pupposoft.trustly.connector.git.gateway.io.http;
 
+import org.springframework.stereotype.Component;
+
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.exceptions.ErrorToGetHttpResourceGatewayException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Component
 public class HttpConnectorGateway implements ConnectorGateway {
 
 	@Override
