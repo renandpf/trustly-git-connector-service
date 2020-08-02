@@ -17,15 +17,14 @@ import java.nio.charset.StandardCharsets;
 
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.domains.Measurement;
-import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGetGitFileInfoGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
-public class GetFileInfosGatewayGitHubUnitTest {
+public class GetFileInfosGitHubScrapUnitTest {
 	
 	@InjectMocks
-	private GetFileInfosGateway getFileInfosGatewayGitHub = new GetFileInfosGatewayGitHub();
+	private GetFileInfosGitHubScrap getFileInfosGitHubScrap = new GetFileInfosGitHubScrap();
 	
 	@Mock
 	private ConnectorGatewayFactory connectorGatewayFactory;
@@ -44,7 +43,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final String filePath = "anyFilePath";
 		this.mockLoadHtml("pages/github/pom-example-page.html", filePath);
 		
-		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		final FileInfo fileInfo = this.getFileInfosGitHubScrap.getByPath(filePath);
 		assertEquals("pom.xml", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(87, fileInfo.getLines());
@@ -60,7 +59,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final String filePath = "anyFilePath";
 		this.mockLoadHtml("pages/github/git-ignore-example-page.html", filePath);
 		
-		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		final FileInfo fileInfo = this.getFileInfosGitHubScrap.getByPath(filePath);
 		assertEquals(".gitignore", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(8, fileInfo.getLines());
@@ -76,7 +75,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final String filePath = "anyFilePath";
 		this.mockLoadHtml("pages/github/readme-example-page.html", filePath);
 		
-		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		final FileInfo fileInfo = this.getFileInfosGitHubScrap.getByPath(filePath);
 		assertEquals("README.md", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(1, fileInfo.getLines());
@@ -92,7 +91,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final String filePath = "anyFilePath";
 		this.mockLoadHtml("pages/github/java-example-page.html", filePath);
 		
-		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		final FileInfo fileInfo = this.getFileInfosGitHubScrap.getByPath(filePath);
 		assertEquals("GitTrustlyConnectorService.java", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(14, fileInfo.getLines());
@@ -108,7 +107,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		final String filePath = "anyFilePath";
 		this.mockLoadHtml("pages/github/blob-example-page.html", filePath);
 		
-		final FileInfo fileInfo = this.getFileInfosGatewayGitHub.getByPath(filePath);
+		final FileInfo fileInfo = this.getFileInfosGitHubScrap.getByPath(filePath);
 		assertEquals("chromedriver.exe", fileInfo.getName());
 		assertEquals(filePath, fileInfo.getPath());
 		assertEquals(0L, fileInfo.getLines());
@@ -125,7 +124,7 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		doThrow(new RuntimeException("Any error message")).when(this.httpConnectorGateway).load(filePath);
 		
 		try {
-			this.getFileInfosGatewayGitHub.getByPath(filePath);
+			this.getFileInfosGitHubScrap.getByPath(filePath);
 		} catch (final ErrorToGetGitFileInfoGatewayException e) {
 			verify(this.connectorGatewayFactory).get(filePath);
 			verify(this.httpConnectorGateway).load(filePath);

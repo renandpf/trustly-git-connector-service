@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.VerificationModeFactory;
 
-import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesPathsGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
 import br.com.pupposoft.trustly.connector.git.usecases.exceptions.UnknownRepositoryBusinessException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,11 +23,15 @@ public class GetAllFilesPathUseCaseUnitTest {
 	private GetAllFilesPathUseCase getAllFilesPathUseCase;
 	
 	@Mock
-	private GetFilesPathsGateway getFilesPathsGateway;
+	private GetFilesInfosGatewayFactory getFilesInfosGatewayFactory;
 
+	@Mock
+	private GetFileInfosGateway getFileInfosGateway;
+	
 	@Before
 	public void InitMock() {
 		MockitoAnnotations.initMocks(this);
+		doReturn(getFileInfosGateway).when(this.getFilesInfosGatewayFactory).get(anyString());
 	}
 	
 	@Test
@@ -39,16 +43,15 @@ public class GetAllFilesPathUseCaseUnitTest {
 				Arrays.asList(
 						"https://github.com/renandpf/trustly-git-connector-service/blob/master/.gitignore", 
 						"https://github.com/renandpf/trustly-git-connector-service/blob/master/README.md");
-		doReturn(allFilesPathsExistent).when(this.getFilesPathsGateway).get(eq(urlAllFilesExpected));
+		doReturn(allFilesPathsExistent).when(this.getFileInfosGateway).getAllFilesPath(eq(urlAllFilesExpected));
 		
 		final List<String> allFilesPaths = this.getAllFilesPathUseCase.get(urlBase);
 		assertEquals(2, allFilesPaths.size());
 		assertEquals(allFilesPathsExistent.get(0), allFilesPaths.get(0));
 		assertEquals(allFilesPathsExistent.get(1), allFilesPaths.get(1));
 		
-		final ArgumentCaptor<String> urlAllFilesCaptor = ArgumentCaptor.forClass(String.class); 
-		verify(this.getFilesPathsGateway).get(urlAllFilesCaptor.capture());
-		assertEquals(urlAllFilesExpected, urlAllFilesCaptor.getValue());
+		verify(this.getFileInfosGateway).getAllFilesPath(urlAllFilesExpected);
+		verify(this.getFilesInfosGatewayFactory).get(urlAllFilesExpected);
 	}
 	
 	@Test(expected = UnknownRepositoryBusinessException.class)
@@ -59,7 +62,7 @@ public class GetAllFilesPathUseCaseUnitTest {
 			this.getAllFilesPathUseCase.get(urlBase);
 			
 		} catch (UnknownRepositoryBusinessException e) {
-			verify(this.getFilesPathsGateway, VerificationModeFactory.noInteractions()).get(anyString());
+			verify(this.getFilesInfosGatewayFactory, VerificationModeFactory.noInteractions()).get(anyString());
 			throw e;
 		}
 	}

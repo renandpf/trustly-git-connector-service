@@ -14,11 +14,13 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.util.ClassUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import br.com.pupposoft.trustly.connector.git.domains.ExtensionFileInfos;
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
 import br.com.pupposoft.trustly.connector.git.test.fixture.DomainsTemplateLoader;
 import br.com.pupposoft.trustly.connector.git.test.fixture.FileInfoTemplate;
 import br.com.six2six.fixturefactory.Fixture;
@@ -30,11 +32,15 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 	private GetFilesInfosGroupByExtensionUseCase getFilesInfosGroupByExtensionUseCase;
 	
 	@Mock
-	private GetFileInfosGateway getFileInfosGateway;
+	private GetFilesInfosGatewayFactory getFilesInfosGatewayFactory;
 
+	@Mock
+	private GetFileInfosGateway getFileInfosGateway;
+	
 	@Before
 	public void InitMock() {
 		MockitoAnnotations.initMocks(this);
+		doReturn(getFileInfosGateway).when(this.getFilesInfosGatewayFactory).get(anyString());
 	}
 	
 	@BeforeClass
@@ -72,6 +78,7 @@ public class GetFilesInfosGroupByExtensionUseCaseUnitTest {
 		
 		final ArgumentCaptor<String> filesPathsCaptor = ArgumentCaptor.forClass(String.class);
 		verify(getFileInfosGateway, VerificationModeFactory.times(2)).getByPath(filesPathsCaptor.capture());
+		verify(getFilesInfosGatewayFactory, VerificationModeFactory.times(2)).get(anyString());
 
 		final List<String> filesPathSent = filesPathsCaptor.getAllValues();
 		assertEquals(2, filesPathSent.size());

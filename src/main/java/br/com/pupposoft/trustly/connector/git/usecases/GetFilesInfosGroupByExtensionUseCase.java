@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 
 import br.com.pupposoft.trustly.connector.git.domains.ExtensionFileInfos;
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
-import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
 
 @Service
 public class GetFilesInfosGroupByExtensionUseCase {
 
 	@Autowired
-	private GetFileInfosGateway getFileInfosGateway;
+	private GetFilesInfosGatewayFactory getFilesInfosGatewayFactory;
 	
 	public List<ExtensionFileInfos> get(final List<String> filesPath) {
 		final List<FileInfo> filesInfo = this.getFilesInfos(filesPath);
@@ -45,7 +45,7 @@ public class GetFilesInfosGroupByExtensionUseCase {
 
 	private List<FileInfo> getFilesInfos(final List<String> filesPath) {
 		final List<FileInfo> filesInfo = new ArrayList<>();
-		filesPath.forEach(filePath -> filesInfo.add(this.getFileInfosGateway.getByPath(filePath)));
+		filesPath.forEach(filePath -> filesInfo.add(this.getFilesInfosGatewayFactory.get(filePath).getByPath(filePath)));
 		return filesInfo;
 	}
 

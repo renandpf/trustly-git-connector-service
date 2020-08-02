@@ -13,7 +13,7 @@ import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGet
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
 @Component
-public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
+public class GetFileInfosGitHubScrap {
 	private static final String FILE_INFO_DIVIDER_CLASS = "<span class=\"file-info-divider\"></span>";
 	
 	private static final String FILE_SIZE_MBYTES_CLEAN = "MB";
@@ -36,7 +36,6 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	@Autowired
 	private ConnectorGatewayFactory connectorGatewayFactory;
 	
-	@Override
 	public FileInfo getByPath(final String filePath) {
 		try {
 			final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);

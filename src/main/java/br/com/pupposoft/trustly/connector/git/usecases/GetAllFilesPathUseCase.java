@@ -5,19 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesPathsGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.GetFilesInfosGatewayFactory;
 import br.com.pupposoft.trustly.connector.git.usecases.exceptions.UnknownRepositoryBusinessException;
 
 @Service
 public class GetAllFilesPathUseCase {
 
 	@Autowired
-	private GetFilesPathsGateway getFilesPathsGateway;
+	private GetFilesInfosGatewayFactory getFilesInfosGatewayFactory;
 	
 	public List<String> get(final String urlBase) {
 		final String urlAllFiles = this.getAllPathFile(urlBase);
 		
-		final List<String> allFilesPaths = this.getFilesPathsGateway.get(urlAllFiles);
+		final List<String> allFilesPaths = this.getFilesInfosGatewayFactory.get(urlAllFiles).getAllFilesPath(urlAllFiles);
 		
 		return allFilesPaths;
 	}
