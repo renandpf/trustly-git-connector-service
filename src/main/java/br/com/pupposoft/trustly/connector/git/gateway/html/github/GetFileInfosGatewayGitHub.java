@@ -9,6 +9,7 @@ import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.domains.FileSize;
 import br.com.pupposoft.trustly.connector.git.domains.Measurement;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGetGitFileInfoGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
 @Component
@@ -37,14 +38,17 @@ public class GetFileInfosGatewayGitHub implements GetFileInfosGateway{
 	
 	@Override
 	public FileInfo getByPath(final String filePath) {
-		final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);
-		final String fileName = this.getFileName(pageContent);
-		final Long lineNumber = this.getLineNumber(pageContent);
-		final FileSize fileSize = this.getFileSize(pageContent);
-		
-		//TODO: tratar e lancçar exceção especifica!
-		
-		return new FileInfo(fileName, filePath, lineNumber, fileSize);
+		try {
+			final String pageContent = connectorGatewayFactory.get(filePath).load(filePath);
+			final String fileName = this.getFileName(pageContent);
+			final Long lineNumber = this.getLineNumber(pageContent);
+			final FileSize fileSize = this.getFileSize(pageContent);
+			
+			return new FileInfo(fileName, filePath, lineNumber, fileSize);
+		} catch (final Exception e) {
+			e.printStackTrace();
+			throw new ErrorToGetGitFileInfoGatewayException();
+		}
 	}
 
 	private Long getLineNumber(final String pageContent) {

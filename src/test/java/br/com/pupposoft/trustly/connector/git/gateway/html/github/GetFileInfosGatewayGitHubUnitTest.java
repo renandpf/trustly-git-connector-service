@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import br.com.pupposoft.trustly.connector.git.domains.FileInfo;
 import br.com.pupposoft.trustly.connector.git.domains.Measurement;
 import br.com.pupposoft.trustly.connector.git.gateway.html.GetFileInfosGateway;
+import br.com.pupposoft.trustly.connector.git.gateway.html.exceptions.ErrorToGetGitFileInfoGatewayException;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGateway;
 import br.com.pupposoft.trustly.connector.git.gateway.io.ConnectorGatewayFactory;
 
@@ -118,7 +119,20 @@ public class GetFileInfosGatewayGitHubUnitTest {
 		verify(this.httpConnectorGateway).load(filePath);
 	}
 	
-	//TODO: adicioanar cenario de teste de falha!!!
+	@Test(expected = ErrorToGetGitFileInfoGatewayException.class)
+	public void getInfosWithError() {
+		final String filePath = "anyFilePath";
+		doThrow(new RuntimeException("Any error message")).when(this.httpConnectorGateway).load(filePath);
+		
+		try {
+			this.getFileInfosGatewayGitHub.getByPath(filePath);
+		} catch (final ErrorToGetGitFileInfoGatewayException e) {
+			verify(this.connectorGatewayFactory).get(filePath);
+			verify(this.httpConnectorGateway).load(filePath);
+			throw e;
+		}
+	}
+	
 	
 	private void mockLoadHtml(final String pathExampleFile, final String filePath) {
 		final String pageContent = this.loadFileFromResource(pathExampleFile);
