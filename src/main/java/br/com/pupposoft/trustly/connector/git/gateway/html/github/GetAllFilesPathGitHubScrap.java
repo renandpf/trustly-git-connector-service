@@ -20,6 +20,11 @@ public class GetAllFilesPathGitHubScrap {
 		//Em seguida, deve chamar a URL (equivalente): '/renandpf/backend-challenge/tree-list/84112756b6aef53ea80711a6d907417f6213a75c'
 		//Será retornado um JSON conforme salvo no arquivo 'all-files-data-url.json'
 		
+		final int startindexOfId = pageContent.indexOf("max-matches");
+		final int endIndexOfId = pageContent.indexOf("mark-selector=\".js-tree-browser-result-path\"");
+		final String dataUrl = pageContent.substring(startindexOfId, endIndexOfId);
+		//max-matches="50" data-url="/renandpf/trustly-git-connector-service/tree-list/8f193439efd30176df9911fb9540f41ee9c17e92" 
+		
 		//TODO: implementar
 		return null;
 	}

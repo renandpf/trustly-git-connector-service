@@ -35,7 +35,7 @@ public class GetAllFilesPathGitHubScrapUnitTest {
 	}
 	
 	@Test
-	public void getInfosPomFile() {
+	public void getAllPathsFile() {
 		final String urlAllFiles = "anyAllFilesPaths";
 		this.mockLoadHtml("pages/github/all-files-path-example.html", urlAllFiles);
 		
