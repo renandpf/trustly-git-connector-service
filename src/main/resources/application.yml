@@ -2,4 +2,4 @@ spring:
   application:
     name: git-connector-service
 server:
-  port: 8080
+  port: 35000
